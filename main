@@ -1,0 +1,29 @@
+from aiogram import Bot, Dispatcher, executor, types
+from api import getExchange
+
+API_TOKEN = '7022710499:AAEQIGCaccslTu4cbjD---9pfgbJV_483aY'
+
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot)
+
+
+@dp.message_handler(commands=['start'])
+async def send_welcome(message: types.Message):
+    await message.reply("ExchangeBot'ga xush kelibsiz!")
+
+
+@dp.message_handler(commands=['help'])
+async def send_help(message: types.Message):
+    await message.reply("Dasturchi: @MrZafarov")
+
+
+@dp.message_handler()
+async def sendExchange(message: types.Message):
+    try:
+        lookup = getExchange(message.text.upper())
+        await message.answer(f"Kurs: {lookup['kurs']},\nSana: {lookup['sana']}")
+    except:
+        await message.answer("Bu valyuta haqida ma'lumot topilmadi!")
+
+
+executor.start_polling(dp, skip_updates=True)
