@@ -1,0 +1,13 @@
+import requests
+
+API_KEY = 'API KEY HERE'
+
+def getExchange(currency):
+    url = f"https://v6.exchangerate-api.com/v6/{API_KEY}/pair/{currency}/UZS"
+    response = requests.get(url)
+    jsondata = response.json()
+    kurs = jsondata['conversion_rate']
+    sana = jsondata['time_last_update_utc']
+    output={}
+    output={"kurs":kurs,"sana":sana}
+    return output
